@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Customers";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="display-4 mb-0">Customers</h1>
+    <a asp-controller="Home" asp-action="AddCustomer" class="btn btn-primary mt-4">New Customer</a>
+</div>
+
+<table class="table table-striped table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Salutation</th>
+            <th>Street</th>
+            <th>Zip Code</th>
+            <th>City</th>
+            <th>Country</th>
+            <th>Phone</th>
+            <th>EMail</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var customer in Model)
+        {
+            <tr>
+                <td>@customer.FirstName</td>
+                <td>@customer.LastName</td>
+                <td>@customer.Salutation</td>
+                <td>@customer.Street</td>
+                <td>@customer.ZipCode</td>
+                <td>@customer.City</td>
+                <td>@customer.Country</td>
+                <td>@customer.Phone</td>
+                <td>@customer.EMail</td>
+            </tr>
+        }
+    </tbody>
+</table>
