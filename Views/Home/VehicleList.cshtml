@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "VehicleList";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="display-4 mb-0">Vehicle List</h1>
+    <a asp-controller="Home" asp-action="AddVehicle" class="btn btn-primary mt-4">New Vehicle</a>
+</div>
+
+<table class="table table-striped table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th>Brand</th>
+            <th>License Plate</th>
+            <th>Class</th>
+            <th>Mileage</th>
+            <th>First Registration</th>
+            <th>Tire Pressure</th>
+            <th>Rent Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var vehicle in Model)
+        {
+            <tr>
+                <td>@vehicle.Brand</td>
+                <td>@vehicle.LicensePlate</td>
+                <td>@vehicle.Class</td>
+                <td>@vehicle.Mileage</td>
+                <td>@vehicle.FirstRegistration</td>
+                <td>@vehicle.TirePressure</td>
+                <td>@vehicle.RentPrice</td>
+            </tr>
+        }
+    </tbody>
+</table>
