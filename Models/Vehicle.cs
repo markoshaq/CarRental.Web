@@ -2,6 +2,7 @@
 {
     public class Vehicle
     {
+        public int Id { get; set; }
         public string? Brand { get; set; }
         public string? LicensePlate { get; set; }
         public int? Class { get; set; }

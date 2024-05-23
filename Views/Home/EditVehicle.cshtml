@@ -1,0 +1,51 @@
+﻿@model CarRental.Web.Models.Vehicle
+@{
+    ViewData["Title"] = "Edit Vehicle";
+}
+
+<div class="text-start">
+    <h1 class="display-4 mb-3">Edit Vehicle</h1>
+</div>
+
+<form asp-action="SaveVehicle" asp-controller="Home">
+    <div class="form-group row">
+
+        <label for="Brand" class="col-sm-2 col-form-label mt-2">Brand</label>
+        <div class="col-sm-10">
+            <input asp-for="Brand" class="form-control" id="Brand" placeholder="Enter vehicle brand" required value="@Model.Brand">
+        </div>
+
+        <label for="LicensePlate" class="col-sm-2 col-form-label mt-2">License plate</label>
+        <div class="col-sm-10">
+            <input asp-for="LicensePlate" class="form-control" id="LicensePlate" placeholder="Enter license plate" required>
+        </div>
+
+        <label for="Class" class="col-sm-2 col-form-label mt-2">Vehicle class</label>
+        <div class="col-sm-10">
+            <input asp-for="Class" class="form-control" id="Class" placeholder="Enter class">
+        </div>
+
+        <label for="Mileage" class="col-sm-2 col-form-label mt-2">Vehicle mileage</label>
+        <div class="col-sm-10">
+            <input asp-for="Mileage" type="number" class="form-control" id="Mileage" placeholder="Enter current vehicle mileage">
+        </div>
+
+        <label for="FirstRegistration" class="col-sm-2 col-form-label mt-2">First Registration</label>
+        <div class="col-sm-10">
+            <input asp-for="FirstRegistration" type="date" class="form-control" id="FirstRegistration" placeholder="Enter first registration date">
+        </div>
+
+        <label for="TirePressure" class="col-sm-2 col-form-label mt-2">Tire Pressure</label>
+        <div class="col-sm-10">
+            <input asp-for="TirePressure" type="number" class="form-control" id="TirePressure" placeholder="Enter tire pressure">
+        </div>
+
+        <label for="RentPrice" class="col-sm-2 col-form-label mt-2">Rent Price</label>
+        <div class="col-sm-10">
+            <input asp-for="RentPrice" type="number" class="form-control" id="RentPrice" placeholder="Enter rent price" required>
+        </div>
+    </div>
+    <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+    </div>
+</form>

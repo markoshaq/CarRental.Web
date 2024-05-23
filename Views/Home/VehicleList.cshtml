@@ -2,14 +2,17 @@
     ViewData["Title"] = "Vehicles";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-3">
+<div class="d-flex justify-content-between mb-3">
     <h1 class="display-4 mb-0">Vehicles</h1>
-    <a asp-controller="Home" asp-action="AddVehicle" class="btn btn-primary mt-4">New Vehicle</a>
+    <div>
+        <a asp-controller="Home" asp-action="AddVehicle" class="btn btn-primary mt-4">New Vehicle</a>
+    </div>
 </div>
 
-<table class="table table-striped table-bordered">
+<table class="table table-hover">
     <thead class="thead-dark">
         <tr>
+            <th>Id</th>
             <th>Brand</th>
             <th>License Plate</th>
             <th>Class</th>
@@ -17,12 +20,14 @@
             <th>First Registration</th>
             <th>Tire Pressure</th>
             <th>Rent Price</th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var vehicle in Model)
         {
             <tr>
+                <td>@vehicle.Id</td>
                 <td>@vehicle.Brand</td>
                 <td>@vehicle.LicensePlate</td>
                 <td>@vehicle.Class</td>
@@ -30,6 +35,16 @@
                 <td>@vehicle.FirstRegistration</td>
                 <td>@vehicle.TirePressure</td>
                 <td>@vehicle.RentPrice</td>
+                <td>
+                    <form asp-action="EditVehicle" method="get" style="display:inline;">
+                        <input type="hidden" name="id" value="@vehicle.Id" />
+                        <button type="submit" class="btn btn-secondary btn-sm">Edit</button>
+                    </form>
+                    <form asp-action="DeleteVehicle" method="post" style="display:inline;">
+                        <input type="hidden" name="id" value="@vehicle.Id" />
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </td>
             </tr>
         }
     </tbody>

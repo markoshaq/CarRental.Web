@@ -49,15 +49,36 @@ namespace CarRental.Web.Controllers
             return View(new List<Customer>());
         }
         [HttpPost]
-        public IActionResult SendAddCustomerForm(Customer customer)
+        public async Task<IActionResult> SendAddCustomerForm(Customer customer)
         {
             var client = _httpClientFactory.CreateClient();
             var json = JsonConvert.SerializeObject(customer);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = client.PostAsync("https://localhost:7036/api/customers", content);
+            var response = await client.PostAsync("https://localhost:7036/api/customers", content);
 
-            return RedirectToAction("CustomerList", "Home");
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("CustomerList", "Home");
+            }
+            else
+            {
+                return View("Error");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteCustomer(int id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var response = await client.DeleteAsync($"https://localhost:7036/api/customers/{id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("CustomerList");
+            }
+
+            return BadRequest();
         }
 
         // RENTAL CONTRACT
@@ -94,10 +115,43 @@ namespace CarRental.Web.Controllers
             return RedirectToAction("RentalContractList", "Home");
         }
 
+        public async Task<IActionResult> DeleteRentalContract(int id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var response = await client.DeleteAsync($"https://localhost:7036/api/rentalcontract/{id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("RentalContractList");
+            }
+
+            return BadRequest();
+        }
+
         // VEHICLE
         public IActionResult AddVehicle()
         {
             return View();
+        }
+        public IActionResult SaveVehicle()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditVehicle(int id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var response = await client.GetAsync($"https://localhost:7036/api/vehicles/{id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                var vehicle = JsonConvert.DeserializeObject<Vehicle>(json);
+                return View(vehicle); // Pass the vehicle data to the edit view
+            }
+
+            return NotFound();
         }
 
         [HttpGet]
@@ -116,15 +170,56 @@ namespace CarRental.Web.Controllers
             return View(new List<Vehicle>());
         }
         [HttpPost]
-        public IActionResult SendAddVehicleForm(Vehicle vehicle)
+        public async Task<IActionResult> SendAddVehicleForm(Vehicle vehicle)
         {
             var client = _httpClientFactory.CreateClient();
             var json = JsonConvert.SerializeObject(vehicle);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = client.PostAsync("https://localhost:7036/api/vehicles", content);
+            var response = await client.PostAsync("https://localhost:7036/api/vehicles", content);
 
-            return RedirectToAction("VehicleList", "Home");
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("VehicleList", "Home");
+            }
+            else
+            {
+                // Handle error scenario
+                return View("Error");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteVehicle(int id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var response = await client.DeleteAsync($"https://localhost:7036/api/vehicles/{id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("VehicleList");
+            }
+
+            return BadRequest();
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> SaveVehicle(Vehicle vehicle)
+        {
+                var client = _httpClientFactory.CreateClient();
+                var json = JsonConvert.SerializeObject(vehicle);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await client.PutAsync($"https://localhost:7036/api/vehicles/{vehicle.Id}", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("VehicleList");
+                }
+                else
+                {
+                    return View("Error");
+                }
         }
 
         public IActionResult Privacy()
