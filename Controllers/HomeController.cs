@@ -133,10 +133,37 @@ namespace CarRental.Web.Controllers
         {
             return View();
         }
-        public IActionResult SaveVehicle()
+
+        [HttpPost]
+        public async Task<IActionResult> SaveVehicle(Vehicle vehicle, bool isUpdate)
         {
-            return View();
+            var client = _httpClientFactory.CreateClient();
+            var json = JsonConvert.SerializeObject(vehicle);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response;
+
+            if (isUpdate)
+            {
+                // Perform a PUT request to update the vehicle
+                response = await client.PutAsync($"https://localhost:7036/api/vehicles/{vehicle.Id}", content);
+            }
+            else
+            {
+                // Perform a POST request to create a new vehicle
+                response = await client.PostAsync("https://localhost:7036/api/vehicles", content);
+            }
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("VehicleList");
+            }
+            else
+            {
+                return View("Error");
+            }
         }
+
 
         [HttpGet]
         public async Task<IActionResult> EditVehicle(int id)
@@ -201,25 +228,6 @@ namespace CarRental.Web.Controllers
             }
 
             return BadRequest();
-        }
-
-        [HttpPut]
-        public async Task<IActionResult> SaveVehicle(Vehicle vehicle)
-        {
-                var client = _httpClientFactory.CreateClient();
-                var json = JsonConvert.SerializeObject(vehicle);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                var response = await client.PutAsync($"https://localhost:7036/api/vehicles/{vehicle.Id}", content);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    return RedirectToAction("VehicleList");
-                }
-                else
-                {
-                    return View("Error");
-                }
         }
 
         public IActionResult Privacy()
