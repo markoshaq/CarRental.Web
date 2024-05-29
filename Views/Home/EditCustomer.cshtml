@@ -1,0 +1,64 @@
+﻿@model CarRental.Web.Models.Customer
+@{
+    ViewData["Title"] = "Edit Customer";
+}
+
+<div class="text-start">
+    <h1 class="display-4 mb-3">Edit Customer</h1>
+</div>
+
+<form asp-action="SaveCustomer" asp-controller="Home">
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <input type="hidden" name="IsUpdate" value="true" />
+    <div class="form-group row">
+
+        <label for="FirstName" class="col-sm-2 col-form-label mt-2">First name</label>
+        <div class="col-sm-10">
+            <input asp-for="FirstName" class="form-control" id="FirstName" placeholder="Enter first name" required>
+        </div>
+
+        <label for="LastName" class="col-sm-2 col-form-label mt-2">Last name</label>
+        <div class="col-sm-10">
+            <input asp-for="LastName" class="form-control" id="LastName" placeholder="Enter last name" required>
+        </div>
+
+        <label for="Salutation" class="col-sm-2 col-form-label mt-2">Salutation</label>
+        <div class="col-sm-10">
+            <input asp-for="Salutation" class="form-control" id="Salutation" placeholder="Enter salutation">
+        </div>
+
+        <label for="Street" class="col-sm-2 col-form-label mt-2">Street</label>
+        <div class="col-sm-10">
+            <input asp-for="Street" class="form-control" id="Street" placeholder="Enter street" required>
+        </div>
+
+        <label for="Zipcode" class="col-sm-2 col-form-label mt-2">Zip Code</label>
+        <div class="col-sm-10">
+            <input asp-for="ZipCode" type="number" class="form-control" id="Zipcode" placeholder="Enter zipcode" required>
+        </div>
+
+        <label for="City" class="col-sm-2 col-form-label mt-2">City</label>
+        <div class="col-sm-10">
+            <input asp-for="City" class="form-control" id="City" placeholder="Enter city" required>
+        </div>
+
+        <label for="Country" class="col-sm-2 col-form-label mt-2">Country</label>
+        <div class="col-sm-10">
+            <input asp-for="Country" class="form-control" id="Country" placeholder="Enter country">
+        </div>
+
+        <label for="Phone" class="col-sm-2 col-form-label mt-2">Phone</label>
+        <div class="col-sm-10">
+            <input asp-for="Phone" type="tel" class="form-control" id="Phone" placeholder="Enter phone">
+        </div>
+
+        <label for="EMail" class="col-sm-2 col-form-label mt-2">E-Mail</label>
+        <div class="col-sm-10">
+            <input asp-for="EMail" type="email" class="form-control" id="EMail" placeholder="Enter E-Mail" required>
+        </div>
+
+    </div>
+    <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+    </div>
+</form>

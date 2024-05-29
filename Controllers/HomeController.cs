@@ -28,6 +28,21 @@ namespace CarRental.Web.Controllers
         }
 
         // CUSTOMER
+        [HttpGet]
+        public async Task<IActionResult> EditCustomer(int id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var response = await client.GetAsync($"https://localhost:7036/api/customers/{id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                var customer = JsonConvert.DeserializeObject<Customer>(json);
+                return View(customer); // Pass the vehicle data to the edit view
+            }
+
+            return NotFound();
+        }
         public IActionResult AddCustomer()
         {
             return View();
@@ -81,7 +96,82 @@ namespace CarRental.Web.Controllers
             return BadRequest();
         }
 
+        [HttpPost]
+        public async Task<IActionResult> SaveCustomer(Customer customer, bool isUpdate)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var json = JsonConvert.SerializeObject(customer);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response;
+
+            if (isUpdate)
+            {
+                // Perform a PUT request to update the vehicle
+                response = await client.PutAsync($"https://localhost:7036/api/customers/{customer.Id}", content);
+            }
+            else
+            {
+                // Perform a POST request to create a new vehicle
+                response = await client.PostAsync("https://localhost:7036/api/customers", content);
+            }
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("CustomerList");
+            }
+            else
+            {
+                return View("Error");
+            }
+        }
+
         // RENTAL CONTRACT
+        [HttpGet]
+        public async Task<IActionResult> EditRentalContract(int id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var response = await client.GetAsync($"https://localhost:7036/api/rentalcontracts/{id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                var rentalcontract = JsonConvert.DeserializeObject<RentalContract>(json);
+                return View(rentalcontract); // Pass the vehicle data to the edit view
+            }
+
+            return NotFound();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SaveRentalContract(RentalContract rentalcontract, bool isUpdate)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var json = JsonConvert.SerializeObject(rentalcontract);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response;
+
+            if (isUpdate)
+            {
+                // Perform a PUT request to update the vehicle
+                response = await client.PutAsync($"https://localhost:7036/api/rentalcontracts/{rentalcontract.Id}", content);
+            }
+            else
+            {
+                // Perform a POST request to create a new vehicle
+                response = await client.PostAsync("https://localhost:7036/api/rentalcontracts", content);
+            }
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("RentalContractList");
+            }
+            else
+            {
+                return View("Error");
+            }
+        }
 
         public IActionResult AddRentalContract()
         {
@@ -104,21 +194,28 @@ namespace CarRental.Web.Controllers
             return View(new List<RentalContract>());
         }
         [HttpPost]
-        public IActionResult SendAddRentalContractForm(RentalContract rentalcontract)
+        public async Task<IActionResult> SendAddRentalContractForm(RentalContract rentalcontract)
         {
             var client = _httpClientFactory.CreateClient();
             var json = JsonConvert.SerializeObject(rentalcontract);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = client.PostAsync("https://localhost:7036/api/rentalcontracts", content);
+            var response = await client.PostAsync("https://localhost:7036/api/rentalcontracts", content);
 
-            return RedirectToAction("RentalContractList", "Home");
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("RentalContractList", "Home");
+            }
+            else
+            {
+                return View("Error");
+            }
         }
 
         public async Task<IActionResult> DeleteRentalContract(int id)
         {
             var client = _httpClientFactory.CreateClient();
-            var response = await client.DeleteAsync($"https://localhost:7036/api/rentalcontract/{id}");
+            var response = await client.DeleteAsync($"https://localhost:7036/api/rentalcontracts/{id}");
 
             if (response.IsSuccessStatusCode)
             {

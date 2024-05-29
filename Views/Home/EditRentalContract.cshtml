@@ -1,13 +1,15 @@
 ﻿@model CarRental.Web.Models.RentalContract
 @{
-    ViewData["Title"] = "Add Rental Contract";
+    ViewData["Title"] = "Edit Rental Contract";
 }
 
 <div class="text-start">
-    <h1 class="display-4 mb-3">Add a new rental contract</h1>
+    <h1 class="display-4 mb-3">Edit Rental Contract</h1>
 </div>
 
-<form asp-action="SendAddRentalContractForm" asp-controller="Home">
+<form asp-action="SaveRentalContract" asp-controller="Home">
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <input type="hidden" name="IsUpdate" value="true" />
     <div class="form-group row">
 
         <label for="Customer ID" class="col-sm-2 col-form-label mt-2">Customer ID</label>
